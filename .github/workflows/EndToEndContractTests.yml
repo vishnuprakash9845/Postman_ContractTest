@@ -1,0 +1,40 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Automated Contract API Tests using Newman CLI 
+
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  schedule:
+    - cron: "0 0 1 1 *"
+  workflow_dispatch:
+
+jobs:
+  test-api:
+    runs-on: ubuntu-latest
+    steps:
+    # Checkout the repository
+      - uses: actions/checkout@v3
+      - name: Create dir
+        run: |
+         mkdir TestArtifact	  
+    #Install Node on the runner
+      - name: Install Node
+        uses: actions/checkout@v3
+        with:
+          node-version: '16.x'	  
+    #Install newman globally the reporter for slack and install the html extra reporter
+      - name: Install newman
+        run: |
+         npm install -g newman
+         npm install -g newman-reporter-htmlextra	 
+    #Run the Postman Collection
+      - name: Run Tests
+        if: ${{ always() }}
+        run: newman run "ContractTests.postman_collection.json" -r cli,htmlextra --reporter-htmlextra-export testArtifacts/htmlreport.html	
+    #Upload the reports to TestArtifact directory
+      - name: Output the results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v3
+        with:
+         name: Reports
+         path: testArtifacts
