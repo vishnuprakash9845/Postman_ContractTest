@@ -17,6 +17,16 @@ jobs:
       - name: Create dir
         run: |
          mkdir TestArtifact	  
+    # Install the Python and Dependencies
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          python test_api_basic/main.py
     #Install Node on the runner
       - name: Install Node
         uses: actions/checkout@v3
