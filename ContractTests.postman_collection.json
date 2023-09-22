@@ -1,0 +1,354 @@
+{
+	"info": {
+		"_postman_id": "8a83816f-32ad-4b32-b61e-f41e2f0edf61",
+		"name": "ContractTests",
+		"description": "This API allows to show users, create new users or delete existing users. All calls need authorization, so you first have to login and send the token within the header.\nEvery field given must be set and shall not be empty.\nA User must have a minimum of 1 contract and can have a maximum of 3 contracts.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8117374",
+		"_collection_link": "https://martian-shadow-476601.postman.co/workspace/APITesting~8a0b7dfc-fa7a-4999-b9e8-510911ad2bc0/collection/8117374-8a83816f-32ad-4b32-b61e-f41e2f0edf61?action=share&source=collection_link&creator=8117374"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Login Test : Status code should be 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"bodyData = JSON.parse(responseBody);\r",
+							"newAccessToken = bodyData.token;\r",
+							"console.log(newAccessToken)\r",
+							"pm.collectionVariables.set(\"token\", newAccessToken);\r",
+							"\r",
+							"// let res = pm.response.json();\r",
+							"// console.log(\"response\",res.token);\r",
+							"// pm.collectionVariables.set(\"Token\",res.token);\r",
+							"\r",
+							"let result = pm.response; // get the response\r",
+							"if (result) { // if there is a response\r",
+							"    pm.test(\"payload return test\", () => { // create a test to check whether the API has a payload\r",
+							"        pm.response.to.be.success; // 201 response code\r",
+							"        pm.response.to.be.withBody; // has a body\r",
+							"        pm.response.to.json; // the body is JSON\r",
+							"    });\r",
+							"    let payload = result.json(); // get the payload\r",
+							"    pm.test(\"response structure test\", () => { // create a test to check whether the structure of the payload is as expected\r",
+							"        pm.expect(payload).to.have.property(\"token\"); // has id in JSON\r",
+							"    });\r",
+							"}\r",
+							"else { // no response\r",
+							"    pm.test(\"return test\", () => { // create a test to check whether the request is malformed\r",
+							"        pm.response.to.be.badRequest; // 400 response code\r",
+							"    });\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json; charset=\"UTF-8\"",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"admin\",\r\n    \"password\": \"masterPass\"\r\n}"
+				},
+				"url": {
+					"raw": "{{baseURl}}/login",
+					"host": [
+						"{{baseURl}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Users Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get User based On ID Test : Status code should be 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"let result = pm.response; // get the response\r",
+							"if (result) { // if there is a response\r",
+							"    pm.test(\"payload return test\", () => { // create a test to check whether the API has a payload\r",
+							"        pm.response.to.be.success; // 201 response code\r",
+							"        pm.response.to.be.withBody; // has a body\r",
+							"        pm.response.to.json; // the body is JSON\r",
+							"    });\r",
+							"    let payload = result.json(); // get the payload\r",
+							"    pm.test(\"response structure test\", () => { // create a test to check whether the structure of the payload is as expected\r",
+							"        pm.expect(payload).to.have.property(\"active\"); // has id in JSON\r",
+							"        pm.expect(payload).to.have.property(\"city\"); // has id in JSON\r",
+							"        pm.expect(payload).to.have.property(\"contracts\"); // has id in JSON\r",
+							"        pm.expect(payload.contracts).to.be.an(\"array\");\r",
+							"        pm.expect(payload.contracts[0]).to.have.keys('currency','id','price','type').and.be.an(\"object\");\r",
+							"        pm.expect(payload.contracts[1]).to.have.keys('currency','id','price','type').and.be.an(\"object\");\r",
+							"        pm.expect(payload).to.have.property(\"email\"); // has id in JSON\r",
+							"        pm.expect(payload).to.have.property(\"id\"); // has id in JSON\r",
+							"        pm.expect(payload).to.have.property(\"name\"); // has id in JSON\r",
+							"        pm.expect(payload).to.have.property(\"street\"); // has id in JSON\r",
+							"        pm.expect(payload).to.have.property(\"surname\"); // has id in JSON\r",
+							"        pm.expect(payload).to.have.property(\"zip\"); // has id in JSON\r",
+							"    });\r",
+							"}\r",
+							"else { // no response\r",
+							"    pm.test(\"return test\", () => { // create a test to check whether the request is malformed\r",
+							"        pm.response.to.be.badRequest; // 400 response code\r",
+							"    });\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json; charset=\"UTF-8\"",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseURl}}/users/1",
+					"host": [
+						"{{baseURl}}"
+					],
+					"path": [
+						"users",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let res = pm.response.json();\r",
+							"console.log(\"response\",res.token);\r",
+							"pm.collectionVariables.set(\"UserID\",res.ID);\r",
+							"\r",
+							"pm.test(\"Create User Test : Status code should be 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"// Contract Tests for Create Operation\r",
+							"let result = pm.response; // get the response\r",
+							"if (result) { // if there is a response\r",
+							"    pm.test(\"payload return test\", () => { // create a test to check whether the API has a payload\r",
+							"        pm.response.to.be.success; // 201 response code\r",
+							"        pm.response.to.be.withBody; // has a body\r",
+							"        pm.response.to.json; // the body is JSON\r",
+							"    });\r",
+							"    let payload = result.json(); // get the payload\r",
+							"    pm.test(\"response structure test\", () => { // create a test to check whether the structure of the payload is as expected\r",
+							"        pm.expect(payload).to.have.property(\"ID\"); // has id in JSON\r",
+							"    });\r",
+							"}\r",
+							"else { // no response\r",
+							"    pm.test(\"return test\", () => { // create a test to check whether the request is malformed\r",
+							"        pm.response.to.be.badRequest; // 400 response code\r",
+							"    });\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json; charset=\"UTF-8\"",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"active\": true,\r\n    \"city\": \"Bengaluru\",\r\n    \"contracts\": [\r\n        {\r\n            \"currency\": \"INR\",\r\n            \"id\": 33,\r\n            \"price\": 9.99,\r\n            \"type\": \"basic\"\r\n        }\r\n    ],\r\n    \"email\": \"monday@gmail.com\",\r\n    \"name\": \"monday\",\r\n    \"street\": \"1st street\",\r\n    \"surname\": \"MM\",\r\n    \"zip\": \"560075\"\r\n}"
+				},
+				"url": {
+					"raw": "{{baseURl}}/users",
+					"host": [
+						"{{baseURl}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Delete User Test : Status code should be 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// Contract Tests for Delete Operation\r",
+							"let result = pm.response; // get the response\r",
+							"if (result) { // if there is a response\r",
+							"    pm.test(\"payload return test\", () => { // create a test to check whether the API has a payload\r",
+							"        pm.response.to.be.success; // 201 response code\r",
+							"        pm.response.to.be.withBody; // has a body\r",
+							"        pm.response.to.json; // the body is JSON\r",
+							"    });\r",
+							"    let payload = result.json(); // get the payload\r",
+							"    pm.test(\"response structure test\", () => { // create a test to check whether the structure of the payload is as expected\r",
+							"        pm.expect(payload).to.have.property(\"MESSAGE\"); // has Message in JSON\r",
+							"    });\r",
+							"}\r",
+							"else { // no response\r",
+							"    pm.test(\"return test\", () => { // create a test to check whether the request is malformed\r",
+							"        pm.response.to.be.badRequest; // 400 response code\r",
+							"    });\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json; charset=\"UTF-8\"",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseURl}}/users/{{UserID}}",
+					"host": [
+						"{{baseURl}}"
+					],
+					"path": [
+						"users",
+						"{{UserID}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "asfd234fkaDkf2asdf2a889DFJSFlsDFWf21",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURl",
+			"value": "http://localhost:5000",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "UserID",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
