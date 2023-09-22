@@ -159,7 +159,7 @@
 					"script": {
 						"exec": [
 							"let res = pm.response.json();\r",
-							"console.log(\"response\",res.token);\r",
+							"console.log(\"Created user Id : \",res.ID);\r",
 							"pm.collectionVariables.set(\"UserID\",res.ID);\r",
 							"\r",
 							"pm.test(\"Create User Test : Status code should be 201\", function () {\r",
