@@ -31,11 +31,6 @@ jobs:
         run: |
           timeout 3 python -i test_api_basic/main.py || code=$?; if [[ $code -ne 124 && $code -ne 0 ]]; then exit $code; fi
           echo Done
-      - name: Run batch Script
-        run: |
-          chmod +x start_apis.bat
-          ./start_apis.bat
-          echo Done
     #Install Node on the runner
       - name: Install Node
         if: ${{ always() }}
@@ -47,7 +42,12 @@ jobs:
         if: ${{ always() }}
         run: |
          npm install -g newman
-         npm install -g newman-reporter-htmlextra	 
+         npm install -g newman-reporter-htmlextra	
+      - name: Run batch Script
+        run: |
+          chmod +x start_apis.bat
+          ./start_apis.bat
+          echo Done
     #Run the Postman Collection
       - name: Run Tests
         if: ${{ always() }}
