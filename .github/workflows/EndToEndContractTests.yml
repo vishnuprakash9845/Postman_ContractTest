@@ -34,7 +34,7 @@ jobs:
       - name: Run batch Script
         run: |
           chmod +x start_apis.bat
-          timeout 3 ./start_apis.bat
+          ./start_apis.bat
           echo Done
     #Install Node on the runner
       - name: Install Node
