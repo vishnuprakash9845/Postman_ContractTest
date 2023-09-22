@@ -31,6 +31,8 @@ jobs:
         run: |
           timeout 3 python test_api_basic/main.py || code=$?; if [[ $code -ne 124 && $code -ne 0 ]]; then exit $code; fi
           echo Done
+      - name: Run Batch Script
+        run: |
           start_apis.bat
     #Install Node on the runner
       - name: Install Node
