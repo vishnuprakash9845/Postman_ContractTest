@@ -2,11 +2,11 @@
 
 name: E2E Automated Contract API Tests using Newman CLI 
 
-on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
-  schedule:
-    - cron: "0 0 1 1 *"
-  workflow_dispatch:
+on: [push, workflow_dispatch]
+  # # Triggers the workflow on push or pull request events but only for the "main" branch
+  # schedule:
+  #   - cron: "0 0 1 1 *"
+  # workflow_dispatch:
 
 jobs:
   test-api:
@@ -29,7 +29,7 @@ jobs:
           echo Done
       - name: Start API Server
         run: |
-          timeout 1 python test_api_basic/main.py || code=$?; if [[ $code -ne 124 && $code -ne 0 ]]; then exit $code; fi
+          timeout 3 python test_api_basic/main.py || code=$?; if [[ $code -ne 124 && $code -ne 0 ]]; then exit $code; fi
           echo Done
     #Install Node on the runner
       - name: Install Node
