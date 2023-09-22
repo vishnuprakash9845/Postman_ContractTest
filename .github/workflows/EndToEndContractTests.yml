@@ -48,6 +48,7 @@ jobs:
           chmod +x start_apis.bat
           ./start_apis.bat
           echo Done
+        timeout-minutes: 1
     #Run the Postman Collection
       - name: Run Tests
         if: ${{ always() }}
