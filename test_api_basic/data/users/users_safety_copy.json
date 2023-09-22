@@ -1,0 +1,71 @@
+{
+    "users": [{
+            "id": 1,
+            "name": "miller",
+            "surname": "tom",
+            "email": "tom@miller.com",
+            "street": "1st street",
+            "zip": "99122",
+            "city": "Testcity",
+            "contracts": [{
+                    "id": 33,
+                    "type": "basic",
+                    "price": 9.99,
+                    "currency": "USD"
+                },
+                {
+                    "id": 106,
+                    "type": "premium-b",
+                    "price": 39.99,
+                    "currency": "USD"
+                }
+            ],
+            "active": true
+        },
+        {
+            "id": 2,
+            "name": "mayer",
+            "surname": "celine",
+            "email": "celine@mayer.net",
+            "street": "Fakeburry Lane",
+            "zip": "11443",
+            "city": "Fakecity",
+            "contracts": [{
+                    "id": 33,
+                    "type": "basic",
+                    "price": 9.99,
+                    "currency": "USD"
+                },
+                {
+                    "id": 22,
+                    "type": "pro",
+                    "price": 49.99,
+                    "currency": "USD"
+                },
+                {
+                    "id": 105,
+                    "type": "premium-a",
+                    "price": 24.55,
+                    "currency": "USD"
+                }
+            ],
+            "active": true
+        },
+        {
+            "id": 3,
+            "name": "delaney",
+            "surname": "sarah",
+            "email": "sarah@delaney.com",
+            "street": "Robot Street",
+            "zip": "55678",
+            "city": "Frameworkcity",
+            "contracts": [{
+                "id": 1,
+                "type": "free",
+                "price": 0,
+                "currency": "USD"
+            }],
+            "active": false
+        }
+    ]
+}
